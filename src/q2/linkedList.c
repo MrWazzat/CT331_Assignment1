@@ -59,3 +59,69 @@ void deleteAfter(listElement* after){
   free(delete->data);
   free(delete);
 }
+
+//Returns the number of elements in a linked list
+int length(listElement* list){
+  unsigned int length = 0;
+  while(list){
+    list = list->next;
+    length++;
+  } 
+  return length;
+}
+
+//Push a new element onto the head of a list
+void push(listElement** list, char* data, size_t size){
+  listElement* pushed = createEl(data, size);
+  pushed->next = *list;
+  *list = pushed;
+}
+
+//Pop an element from the head of a list
+listElement* pop(listElement** list){
+  listElement* first = *list;
+  *list = first->next;
+  first->next = NULL;
+
+  return first;
+}
+
+//Enqueue a new element onto the head of the list
+void enqueue(listElement** list, char* data, size_t size){
+  //Same code as push.
+  //We're not calling push here in case modifications are to be done.
+  listElement* enqueued = createEl(data, size);
+  enqueued->next = *list;
+  *list = enqueued;
+}
+
+//Dequeue an element from the tail of the list
+listElement* dequeue(listElement* list){
+  while(list->next->next != NULL){
+    list = list->next;
+  }
+  listElement* dequeued = list->next;
+  list->next = NULL;
+  return dequeued;
+}
+
+//Frees the memory for the list
+void destroyList(listElement* list){
+  while (list) {
+    listElement *current = list;
+    list = list->next;
+    free(current->data);
+    free(current);
+  }
+}
+
+//Returns the data from the listElement (Tests purposes)
+char* getData(listElement* list){
+  return list->data;
+}
+
+//Returns the next element of the list (Tests purposes)
+listElement* getNext(listElement* list){
+  return list->next;
+}
+
